@@ -1,5 +1,5 @@
 import React from "react";
-import "./style.css";
+import { makeStyles } from "@material-ui/core/styles";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 const useStyles = makeStyles((theme) => ({
@@ -7,14 +7,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100vw",
   },
   back_arrow: {
-    float: left,
     /* margin-bottom: 16px; */
   },
 }));
 
 function BackArrow() {
+  const classes = useStyles();
   return (
-    <div className={classe.back_arrowDiv}>
+    <div className={classes.back_arrowDiv}>
       <ArrowBackIcon className={classes.back_arrow} />
     </div>
   );
