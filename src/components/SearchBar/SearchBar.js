@@ -7,7 +7,10 @@ import { TextField } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   iconButton: {
-    padding: 10,
+    padding: 0,
+    minHeight: 0,
+    minWidth: 0,
+    margin: 0,
   },
   textField: {
     backgroundColor: "#e5e5ea",
@@ -29,16 +32,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchBar() {
+const handleInpuChange = () => {};
+
+function SearchBar(props) {
   const classes = useStyles();
+  const { searchApi } = props;
   return (
     <TextField
       className={classes.textField}
       placeholder="搜尋步道"
       margin={"normal"}
       size="small"
+      onChange={(event) => {
+        searchApi(event.target.value);
+      }}
       InputProps={{
-        startAdornment: <SearchIcon className={classes.searchIcon} />,
+        startAdornment: (
+          <IconButton
+            className={classes.iconButton}
+            onClick={() => {
+              console.log("clicked");
+            }}
+          >
+            <SearchIcon className={classes.searchIcon} />
+          </IconButton>
+        ),
         endAdornment: (
           <IconButton className={classes.button}>
             <MicIcon />
