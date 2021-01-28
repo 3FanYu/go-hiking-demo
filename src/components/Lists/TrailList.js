@@ -82,7 +82,13 @@ export default function TrailList() {
             <Grid item xs="4">
               <img src={tile.img} alt={tile.title} className={classes.thumb} />
             </Grid>
-            <Grid item xs="8" container direction="column">
+            <Grid
+              item
+              xs="8"
+              container
+              direction="column"
+              alignItems="flex-start"
+            >
               <Grid item xs="12" className={classes.title}>
                 {tile.title}
               </Grid>
