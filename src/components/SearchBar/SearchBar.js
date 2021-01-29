@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const handleInpuChange = () => {};
-
 function SearchBar(props) {
   const classes = useStyles();
   const { searchApi } = props;
