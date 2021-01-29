@@ -7,6 +7,7 @@ import BackArrow from "../components/TopBar/BackArrow";
 import FilterIcon from "../components/SearchBar/FilterIcon";
 import TrailList from "../components/Lists/TrailList";
 import axios from "axios";
+import TemporaryDrawer from "../components/SideBar/Sidebar";
 
 const api = axios.create({
   baseURL: "http://127.0.0.1:8000/api/",
@@ -26,6 +27,7 @@ function SearchResult() {
   const classes = useStyles();
   //搜尋結果hook
   const [searchResult, setSearchResult] = useState([]);
+
   //搜尋function
   const searchApi = (kw) => {
     axios.get("/trail/1").then((res) => {
@@ -33,6 +35,7 @@ function SearchResult() {
       setSearchResult(res);
     });
   };
+
   //useEffect
   return (
     <div className={classes.root}>
@@ -60,7 +63,8 @@ function SearchResult() {
             <SearchBar searchApi={searchApi} />
           </Grid>
           <Grid item xs={1}>
-            <FilterIcon />
+            {/* 名彥大哥的超猛篩選器 */}
+            <TemporaryDrawer></TemporaryDrawer>
           </Grid>
         </Grid>
 
