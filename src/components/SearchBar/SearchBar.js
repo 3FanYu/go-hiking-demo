@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 function SearchBar(props) {
   const classes = useStyles();
   //const { searchApi } = props;

@@ -1,13 +1,20 @@
-import { Grid } from "@material-ui/core";
-//import { Grid, Box, createMuiTheme } from "@material-ui/core";
+import { Grid, Box, createMuiTheme } from "@material-ui/core";
+import React, { useState, useEffect } from "react";
 import { Link} from 'react-router-dom';
-import React from "react";
 import "../App.css";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { makeStyles } from "@material-ui/core/styles";
 import BackArrow from "../components/TopBar/BackArrow";
-import FilterIcon from "../components/SearchBar/FilterIcon";
 import TrailList from "../components/Lists/TrailList";
+import axios from "axios";
+import TemporaryDrawer from "../components/SideBar/Sidebar";
+
+const api = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  headers: {
+    "X-Secure-Code": "12345678",
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,8 +25,17 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchResult(props) {
   const classes = useStyles();
-  //const Name="1";
-  console.log(props.location.aboutProps);//SearchBar的aboutProps
+  console.log(props.location.aboutProps);//印出SearchBar的aboutProps
+  //搜尋結果hook
+  const [searchResult, setSearchResult] = useState([]);
+  //搜尋function
+  const searchApi = (kw) => {
+    api.get("/trail?filters=title:"+kw).then((res) => {
+      setSearchResult(res.data);
+    });
+  };
+
+  //useEffect
   return (
     <div className={classes.root}>
       <Grid
@@ -33,29 +49,33 @@ function SearchResult(props) {
           <Link to="/">
             <BackArrow />
           </Link>
+
         </Grid>
         <Grid
           item
-          xs="12"
+          xs={12}
           container
           direction="row"
           justify="flex-start"
           alignItems="center"
           spacing={1}
         >
-          <Grid item xs="10">
-            <SearchBar/>
+          <Grid item xs={11}>
+            {/* 搜尋欄component */}
+            <SearchBar searchApi={searchApi} />
           </Grid>
-          <Grid item xs="2">
-            <FilterIcon />
+          <Grid item xs={1}>
+            {/* 名彥大哥的超猛篩選器 */}
+            <TemporaryDrawer></TemporaryDrawer>
           </Grid>
         </Grid>
 
-        <Grid item xs="12">
+        <Grid item xs={12}>
           <div className={classes.text}>搜尋結果</div>
         </Grid>
-        <Grid item xs="12">
-          <TrailList></TrailList>
+        <Grid item xs={12} container direction="row">
+          {/* 步道list component */}
+          <TrailList data={searchResult}></TrailList>
         </Grid>
       </Grid>
     </div>

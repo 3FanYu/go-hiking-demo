@@ -4,6 +4,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Item from './Item';
+import { IconButton } from "@material-ui/core";
+import TuneIcon from "@material-ui/icons/Tune";
+import './sidebar.scss';
 
 const useStyles = makeStyles({
   list: {
@@ -11,6 +14,12 @@ const useStyles = makeStyles({
   },
   fullList: {
     width: 'auto',
+  },
+  iconButton: {
+    padding: 0,
+    minHeight: 0,
+    minWidth: 0,
+    margin: 0,
   },
 });
 const themeArray = ['賞楓', '親子', '桐花', '露營', '密境', '賞櫻'];
@@ -79,10 +88,7 @@ export default function TemporaryDrawer() {
   const [anchor] = React.useState('right');
 
   const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
-      return;
-    }
-
+    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) return;
     setState({ ...state, [anchor]: open });
   };
 
@@ -103,6 +109,8 @@ export default function TemporaryDrawer() {
       case 5:
         setDifficulty('非常困難');
         break;
+      default:
+        break;
     }
   }
 
@@ -122,6 +130,8 @@ export default function TemporaryDrawer() {
         break;
       case 5:
         setEvaluation(num);
+        break;
+      default:
         break;
     }
   }
@@ -182,13 +192,17 @@ export default function TemporaryDrawer() {
   );
 
   return (
-    <div>
-      <React.Fragment key={anchor}>
-        <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-        <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-          {list(anchor)}
-        </Drawer>
-      </React.Fragment>
-    </div>
+    <React.Fragment key={anchor}>
+      <IconButton
+          className={classes.iconButton}
+          onClick={toggleDrawer(anchor, true)}
+        >
+          <TuneIcon style={{ color: "#00d04c" }}></TuneIcon>
+        </IconButton>
+      {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
+      <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
+        {list(anchor)}
+      </Drawer>
+    </React.Fragment>
   );
 }
