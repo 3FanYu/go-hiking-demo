@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Item from './Item';
+import { IconButton } from "@material-ui/core";
+import TuneIcon from "@material-ui/icons/Tune";
 import './sidebar.scss';
 
 const useStyles = makeStyles({
@@ -12,6 +14,12 @@ const useStyles = makeStyles({
   },
   fullList: {
     width: 'auto',
+  },
+  iconButton: {
+    padding: 0,
+    minHeight: 0,
+    minWidth: 0,
+    margin: 0,
   },
 });
 const themeArray = ['賞楓', '親子', '桐花', '露營', '密境', '賞櫻'];
@@ -185,7 +193,13 @@ export default function TemporaryDrawer() {
 
   return (
     <React.Fragment key={anchor}>
-      <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
+      <IconButton
+          className={classes.iconButton}
+          onClick={toggleDrawer(anchor, true)}
+        >
+          <TuneIcon style={{ color: "#00d04c" }}></TuneIcon>
+        </IconButton>
+      {/* <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button> */}
       <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
         {list(anchor)}
       </Drawer>
