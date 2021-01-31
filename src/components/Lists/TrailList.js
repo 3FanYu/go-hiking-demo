@@ -32,13 +32,14 @@ const useStyles = makeStyles((theme) => ({
 
 const TrailList = (props) => {
   const classes = useStyles();
-  const data = [props];
+  //api回傳資料
+  const data = props.data;
   return (
     <div className={classes.root}>
       <GridList cellHeight={72} cols={1}>
         {data.map((trail) => (
           <Grid
-            key={1}
+            key={trail.id}
             container
             direction="row"
             justify="flex-start"
@@ -49,8 +50,8 @@ const TrailList = (props) => {
           >
             <Grid item xs={4}>
               <img
-                src={trail.data.coverImage}
-                alt={trail.data.title}
+                src={trail.coverImage}
+                alt={trail.title}
                 className={classes.thumb}
               />
             </Grid>
@@ -62,13 +63,13 @@ const TrailList = (props) => {
               alignItems="flex-start"
             >
               <Grid item xs={12} className={classes.title}>
-                {trail.data.title}
+                {trail.title}
               </Grid>
               <Grid item xs={12} className={classes.location}>
-                {trail.data.location}
+                {trail.location.countie.name+trail.location.name}
               </Grid>
               <Grid item xs={12} className={classes.distance}>
-                全程約{trail.data.distance}公里
+                全程約{trail.distance}公里
               </Grid>
               <Grid item xs={12}>
                 <Divider></Divider>

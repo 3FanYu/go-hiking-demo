@@ -1,4 +1,6 @@
-import { Grid, Box, createMuiTheme } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+//import { Grid, Box, createMuiTheme } from "@material-ui/core";
+import { Link} from 'react-router-dom';
 import React from "react";
 import "../App.css";
 import SearchBar from "../components/SearchBar/SearchBar";
@@ -14,8 +16,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchResult() {
+function SearchResult(props) {
   const classes = useStyles();
+  //const Name="1";
+  console.log(props.location.aboutProps);//SearchBar的aboutProps
   return (
     <div className={classes.root}>
       <Grid
@@ -26,7 +30,9 @@ function SearchResult() {
         spacing={1}
       >
         <Grid item xs="12">
-          <BackArrow />
+          <Link to="/">
+            <BackArrow />
+          </Link>
         </Grid>
         <Grid
           item
@@ -38,7 +44,7 @@ function SearchResult() {
           spacing={1}
         >
           <Grid item xs="10">
-            <SearchBar />
+            <SearchBar/>
           </Grid>
           <Grid item xs="2">
             <FilterIcon />
