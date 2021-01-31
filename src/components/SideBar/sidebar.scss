@@ -200,6 +200,7 @@ $font-family: NotoSansCJKtc;
 .showDisplaymMoreBtn {
   display: flex;
   justify-content: center;
+  align-items: center;
   color: #919191;
   margin: 14px 0px 0px 0px;
   font-size: 14px;
@@ -211,8 +212,7 @@ $font-family: NotoSansCJKtc;
   cursor: pointer;
 
   span {
-    display: flex;
-    align-items: center;
+    padding: 0;
   }
 }
 .MuiDrawer-paper {

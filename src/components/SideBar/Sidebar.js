@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -24,13 +24,14 @@ const useStyles = makeStyles({
 const axios = window.axios;
 export default function Sidebar() {
   const classes = useStyles();
-  const [theme, setTheme] = useState();
+  const [theme, setTheme] = useState("");
   const [difficulty, setDifficulty] = useState();
   const [evaluation, setEvaluation] = useState();
   const [altitude, setAltitude] = useState();
   const [county, setCounty] = useState("");
   const [state, setState] = useState(false);
   const [anchor] = useState("right");
+  const [reset, setReset] = useState(false);
   const [themeArray] = useState([
     "賞楓",
     "親子",
@@ -103,10 +104,9 @@ export default function Sidebar() {
   });
 
   const search = async () => {
-    const b = await axios.get(
+    await axios.get(
       `/api/trail?filters=title:慶記,difficulty:${difficulty.value},evaluation:${evaluation},altitude:${altitude},countie:${county}`
     );
-    console.log(b);
   };
 
   const toggleDrawer = (open) => (event) => {
@@ -175,7 +175,17 @@ export default function Sidebar() {
     setAltitude(numArray[1] - numArray[0]);
   };
   const getCounty = (county) => {
-    setCounty(countiesArray[county]);
+    if (county === "") {
+      setCounty("");
+    } else {
+      setCounty(countiesArray[county]);
+    }
+  };
+  const resetData = () => {
+    setReset(() => true);
+    setTimeout(() => {
+      setReset(false);
+    }, 0);
   };
   const content = () => (
     <>
@@ -183,6 +193,7 @@ export default function Sidebar() {
         titleL="主題"
         btns={themeArray}
         btns_num={4}
+        reset={reset}
         getChild={(theme) => getTheme(theme)}
       ></Item>
       <hr />
@@ -193,6 +204,7 @@ export default function Sidebar() {
             ? difficulty.title
             : "" || changeDifficulty(marksOneChoose.defaultVal)
         }
+        reset={reset}
         marks={marksOneChoose}
         getChild={(num) => changeDifficulty(num)}
       ></Item>
@@ -202,6 +214,7 @@ export default function Sidebar() {
         titleR={`${
           evaluation || changeEvaluation(marksOneChoose.defaultVal)
         }顆星`}
+        reset={reset}
         marks={marksOneChoose}
         getChild={(num) => changeEvaluation(num)}
       ></Item>
@@ -211,6 +224,7 @@ export default function Sidebar() {
         titleR={`
       至${altitude || changeAltitude(marksTwoChoose.defaultVal)}M
     `}
+        reset={reset}
         marks={marksTwoChoose}
         getChild={(numArray) => changeAltitude(numArray)}
       ></Item>
@@ -219,6 +233,7 @@ export default function Sidebar() {
         titleL="縣市"
         btns={countiesArray}
         btns_num={6}
+        reset={reset}
         getChild={(county) => getCounty(county)}
       ></Item>
     </>
@@ -237,7 +252,7 @@ export default function Sidebar() {
             <div className="sidebar__content">{content()}</div>
             <div className="sidebar__footer">
               <span className="btn-success">
-                <Button>重設</Button>
+                <Button onClick={() => resetData()}>重設</Button>
               </span>
               <span className="btn-outline-success">
                 <Button
