@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
+import TuneIcon from "@material-ui/icons/Tune";
+import { IconButton } from "@material-ui/core";
 import Item from "./Item";
 import "./sidebar.scss";
 
@@ -12,6 +14,12 @@ const useStyles = makeStyles({
   fullList: {
     width: "auto",
   },
+  iconButton: {
+    padding: 0,
+    minHeight: 0,
+    minWidth: 0,
+    margin: 0,
+  },
 });
 const axios = window.axios;
 export default function Sidebar() {
@@ -20,7 +28,7 @@ export default function Sidebar() {
   const [difficulty, setDifficulty] = useState();
   const [evaluation, setEvaluation] = useState();
   const [altitude, setAltitude] = useState();
-  const [county, setCounty] = useState();
+  const [county, setCounty] = useState("");
   const [state, setState] = useState(false);
   const [anchor] = useState("right");
   const [themeArray] = useState([
@@ -217,7 +225,9 @@ export default function Sidebar() {
   );
   return (
     <>
-      <Button onClick={toggleDrawer(true)}>{anchor}</Button>
+      <IconButton className={classes.iconButton} onClick={toggleDrawer(true)}>
+        <TuneIcon style={{ color: "#00d04c" }}></TuneIcon>
+      </IconButton>
       <Drawer anchor={anchor} open={state} onClose={toggleDrawer(false)}>
         <div className={classes.list} role="presentation">
           <div className="sidebar">

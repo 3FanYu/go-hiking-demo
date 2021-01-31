@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid,BottomNavigationAction,CardActionArea} from "@material-ui/core";
+import { Grid,BottomNavigationAction,CardActionArea } from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
+import TitleBar from "../components/TopBar/TitleBar";
+import { Link} from 'react-router-dom';
 
 import mapple from "../asset/img/icon-mapple.png";
 import chellenge from "../asset/img/icon-chellenge.png"
@@ -16,21 +18,10 @@ import LocationSearchingIcon from '@material-ui/icons/LocationSearching';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 
 const useStyles = makeStyles((theme) => ({
-    title:{
-        height:"56px",
-        lineHeight:"56px",
-        backgroundColor:"#3c5754",
-    },
-    titleDiv:{
-        padding:"0 5%",
-        color:"white",
-        fontFamily:"PingFangTC",
-        fontSize:"18px"
-    },
     searchSetting:{
         padding:"0 5%",
     },
-    quitSearch:{
+    quitSearchText:{
         fontFamily:"NotoSansCJKtc",
         width:"100%",
         textAlign:"left",
@@ -56,76 +47,110 @@ const useStyles = makeStyles((theme) => ({
     },
     footer:{
         boxShadow:" 0 0 3px 0 rgba(0, 0, 0, 0.2)",
+        backgroundColor:"white",
         position:"fixed",
         bottom:0,
         left:0,
         width:"100%",
         fontFamily:"NotoSansCJKtc",
     },
+    linkstlye:{
+        color:"#000",textDecoration: 'none'
+    }
   }));
 
 function SearchPage(){
     const classes = useStyles();
+    const quickSearchText={
+        mapple:'賞楓',
+        chellenge:'挑戰',
+        hotSpring:'溫泉',
+        family:'親子',
+        forest:'秘境',
+        sakura:'賞櫻',
+    };
+    // const [quickSearch,SetQuickSearch]=useState({
+    //     mapple:false,
+    //     chellenge:false,
+    //     hotSpring:false,
+    //     family:false,
+    //     forest:false,
+    //     sakura:false,
+    // });
+
     return(
-        <Fragment>
-            <div className={classes.title}>
-                <div className={classes.titleDiv}>
-                    步道搜尋
-                </div>
-            </div>
+        <>
+            <TitleBar  title="步道搜尋"/>
             <div className={classes.searchSetting}>
                 <SearchBar/>
-                <div className={classes.quitSearch}>
-                    快速搜尋
-                </div>
+                <div className={classes.quitSearchText}>快速搜尋</div>
+
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
+                        <Link to={{pathname:'/searchResult',aboutProps:quickSearchText.mapple}} 
+                        className={classes.linkstlye} >
                         <CardActionArea>
                         <div className={classes.quickSearchDiv}>
-                            <span className={classes.span}>賞楓</span>
+                            <span className={classes.span}>{quickSearchText.mapple}</span>
                             <img src={mapple} className={classes.iconImg} alt="mapple.png"></img>
                         </div>
                         </CardActionArea>
+                        </Link>
                     </Grid>
                     <Grid item xs={6}>
+                    <Link to={{pathname:'/searchResult',aboutProps:quickSearchText.chellenge}} 
+                        className={classes.linkstlye} >
                         <CardActionArea>
                         <div className={classes.quickSearchDiv}>
-                            <span className={classes.span}>挑戰</span>
+                            <span className={classes.span}>{quickSearchText.chellenge}</span>
                             <img src={chellenge} className={classes.iconImg}alt="chellenge.png"></img>
                         </div>
                         </CardActionArea>
+                        </Link>
                     </Grid>
                     <Grid item xs={6}>
+                        <Link to={{pathname:'/searchResult',aboutProps:quickSearchText.hotSpring}} 
+                        className={classes.linkstlye} >
                         <CardActionArea>
                         <div className={classes.quickSearchDiv}>
-                            <span className={classes.span}>溫泉</span>
+                            <span className={classes.span}>{quickSearchText.hotSpring}</span>
                             <img src={hotSpring} className={classes.iconImg} heigh="400" alt="hotSpring.png"></img>
                         </div>
                         </CardActionArea>
+                        </Link>
                     </Grid>
                     <Grid item xs={6}>
+                        <Link to={{pathname:'/searchResult',aboutProps:quickSearchText.family}} 
+                        className={classes.linkstlye} >
                         <CardActionArea>
                         <div className={classes.quickSearchDiv}>
-                            <span className={classes.span}>親子</span>
+                            <span className={classes.span}>{quickSearchText.family}</span>
                             <img src={family} className={classes.iconImg} heigh="400" alt="family.png"></img>
                         </div>
                         </CardActionArea>
+                        </Link>
                     </Grid>
                     <Grid item xs={6}>
+                        <Link to={{pathname:'/searchResult',aboutProps:quickSearchText.forest}} 
+                        className={classes.linkstlye} >
                         <CardActionArea>
                         <div className={classes.quickSearchDiv}>
-                            <span className={classes.span}>秘境</span>
+                            <span className={classes.span}>{quickSearchText.forest}</span>
                             <img src={forest} className={classes.iconImg} heigh="400" alt="forest.png"></img>
                         </div>
                         </CardActionArea>
+                        </Link>
                     </Grid>
                     <Grid item xs={6}>
+                        <Link to={{pathname:'/searchResult',aboutProps:quickSearchText.sakura}} 
+                        className={classes.linkstlye} >
                         <CardActionArea>
                         <div className={classes.quickSearchDiv}>
-                            <span className={classes.span}>賞櫻</span>
+                            <span className={classes.span}>{quickSearchText.sakura}</span>
                             <img src={sakura} className={classes.iconImg} heigh="400" alt="sakura.png"></img>
                         </div>
                         </CardActionArea>
+                        </Link>
                     </Grid>
                 </Grid>
             </div>
@@ -173,7 +198,7 @@ function SearchPage(){
                     </Grid>
                 </Grid>
             </div>
-        </Fragment>
+        </>
     )
 }
 

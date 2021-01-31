@@ -10,8 +10,9 @@ import SearchResult from "./pages/SearchResult";
 import SearchPage from "./pages/SearchPage";
 function App() {
   return (
+    
     <Router>
-      <div className="App">
+      <div>
         <Switch>
           <Route path="/searchPage" exact component={SearchPage} />
           <Route path="/searchResult" exact component={SearchResult} />

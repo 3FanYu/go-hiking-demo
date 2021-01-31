@@ -1,16 +1,16 @@
 import { Grid, Box, createMuiTheme } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
+import { Link} from 'react-router-dom';
 import "../App.css";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { makeStyles } from "@material-ui/core/styles";
 import BackArrow from "../components/TopBar/BackArrow";
-import FilterIcon from "../components/SearchBar/FilterIcon";
 import TrailList from "../components/Lists/TrailList";
 import axios from "axios";
 import TemporaryDrawer from "../components/SideBar/Sidebar";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "X-Secure-Code": "12345678",
   },
@@ -23,16 +23,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SearchResult() {
+function SearchResult(props) {
   const classes = useStyles();
+  console.log(props.location.aboutProps);//印出SearchBar的aboutProps
   //搜尋結果hook
   const [searchResult, setSearchResult] = useState([]);
-
   //搜尋function
   const searchApi = (kw) => {
-    axios.get("/trail/1").then((res) => {
-      console.log(res);
-      setSearchResult(res);
+    api.get("/trail?filters=title:"+kw).then((res) => {
+      setSearchResult(res.data);
     });
   };
 
@@ -46,8 +45,11 @@ function SearchResult() {
         justify="flex-start"
         spacing={1}
       >
-        <Grid item xs={12}>
-          <BackArrow />
+        <Grid item xs="12">
+          <Link to="/">
+            <BackArrow />
+          </Link>
+
         </Grid>
         <Grid
           item

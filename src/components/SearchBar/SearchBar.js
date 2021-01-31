@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useState} from "react";
+import {Link} from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import MicIcon from "@material-ui/icons/Mic";
 import SearchIcon from "@material-ui/icons/Search";
@@ -34,26 +35,36 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchBar(props) {
   const classes = useStyles();
-  const { searchApi } = props;
+  //const { searchApi } = props;
+  const[value,setValue]=useState("");
+  const handleInpuChange = () => (event)=>{
+    setValue(event.target.value)
+  };
   return (
     <TextField
       className={classes.textField}
       placeholder="搜尋步道"
       margin={"normal"}
       size="small"
-      onChange={(event) => {
-        searchApi(event.target.value);
-      }}
+      onChange={
+        // (event) => {
+        // console.log(event.target.value)}
+        handleInpuChange({value})
+      }
       InputProps={{
         startAdornment: (
-          <IconButton
-            className={classes.iconButton}
-            onClick={() => {
-              console.log("clicked");
-            }}
-          >
-            <SearchIcon className={classes.searchIcon} />
-          </IconButton>
+          <Link to={{
+            pathname:'/searchResult',
+            aboutProps:{name:value}
+          }}><IconButton
+          className={classes.iconButton}
+          onClick={() => {
+            console.log({value});
+          }}
+        >
+          <SearchIcon className={classes.searchIcon} />
+        </IconButton></Link>
+          
         ),
         endAdornment: (
           <IconButton className={classes.button}>
