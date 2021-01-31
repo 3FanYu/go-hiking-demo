@@ -35,7 +35,8 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchBar(props) {
   const classes = useStyles();
-  //const { searchApi } = props;
+  const defaultkw= props.props;
+  console.log(defaultkw);
   const[value,setValue]=useState("");
   const handleInpuChange = () => (event)=>{
     setValue(event.target.value)
@@ -43,6 +44,7 @@ function SearchBar(props) {
   return (
     <TextField
       className={classes.textField}
+      defaultValue={defaultkw===""?'':defaultkw}
       placeholder="搜尋步道"
       margin={"normal"}
       size="small"
@@ -59,7 +61,8 @@ function SearchBar(props) {
           }}><IconButton
           className={classes.iconButton}
           onClick={() => {
-            console.log({value});
+            // console.log({value});
+
           }}
         >
           <SearchIcon className={classes.searchIcon} />

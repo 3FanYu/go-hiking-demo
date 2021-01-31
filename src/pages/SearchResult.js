@@ -1,6 +1,6 @@
-import { Grid, Box, createMuiTheme } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
-import { Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "../App.css";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { makeStyles } from "@material-ui/core/styles";
@@ -25,12 +25,16 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchResult(props) {
   const classes = useStyles();
-  console.log(props.location.aboutProps);//印出SearchBar的aboutProps
+  console.log(props.location.aboutProps); //印出SearchBar的aboutProps
+  const kw = props.location.aboutProps.name;
   //搜尋結果hook
   const [searchResult, setSearchResult] = useState([]);
+  useEffect(() => {
+    searchApi(kw);
+  },[kw]);
   //搜尋function
   const searchApi = (kw) => {
-    api.get("/trail?filters=title:"+kw).then((res) => {
+    api.get("/trail?filters=title:" + kw).then((res) => {
       setSearchResult(res.data);
     });
   };
@@ -49,7 +53,6 @@ function SearchResult(props) {
           <Link to="/">
             <BackArrow />
           </Link>
-
         </Grid>
         <Grid
           item
@@ -62,7 +65,7 @@ function SearchResult(props) {
         >
           <Grid item xs={11}>
             {/* 搜尋欄component */}
-            <SearchBar searchApi={searchApi} />
+            <SearchBar props={searchApi,kw} />
           </Grid>
           <Grid item xs={1}>
             {/* 名彥大哥的超猛篩選器 */}
