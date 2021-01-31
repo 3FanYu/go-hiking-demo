@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid,BottomNavigationAction,CardActionArea } from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import TitleBar from "../components/TopBar/TitleBar";
-import { Link} from 'react-router-dom';
+import { Link, withRouter} from 'react-router-dom';
 
 import mapple from "../asset/img/icon-mapple.png";
 import chellenge from "../asset/img/icon-chellenge.png"
@@ -82,7 +82,7 @@ function SearchPage(){
         <>
             <TitleBar  title="步道搜尋"/>
             <div className={classes.searchSetting}>
-                <SearchBar/>
+                <SearchBar props={""}/>
                 <div className={classes.quitSearchText}>快速搜尋</div>
 
                 <Grid container spacing={2}>
