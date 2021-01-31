@@ -4,13 +4,12 @@ import "../App.css";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { makeStyles } from "@material-ui/core/styles";
 import BackArrow from "../components/TopBar/BackArrow";
-import FilterIcon from "../components/SearchBar/FilterIcon";
 import TrailList from "../components/Lists/TrailList";
 import axios from "axios";
 import TemporaryDrawer from "../components/SideBar/Sidebar";
 
 const api = axios.create({
-  baseURL: "http://127.0.0.1:8000/api/",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "X-Secure-Code": "12345678",
   },
@@ -27,12 +26,10 @@ function SearchResult() {
   const classes = useStyles();
   //搜尋結果hook
   const [searchResult, setSearchResult] = useState([]);
-
   //搜尋function
   const searchApi = (kw) => {
-    axios.get("/trail/1").then((res) => {
-      console.log(res);
-      setSearchResult(res);
+    api.get("/trail?filters=title:"+kw).then((res) => {
+      setSearchResult(res.data);
     });
   };
 
