@@ -22,8 +22,9 @@ export default function Item(props) {
                   variant="contained"
                   className={btnClick === index ? "MuiButton-active" : ""}
                   disableElevation
-                  onClick={() => {
+                  onClick={async () => {
                     setBtnClick(index);
+                    props.getChild(index);
                   }}
                   key={label}
                 >

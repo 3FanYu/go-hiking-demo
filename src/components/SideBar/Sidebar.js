@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
@@ -17,10 +17,10 @@ const axios = window.axios;
 export default function Sidebar() {
   const classes = useStyles();
   const [theme, setTheme] = useState();
-  const [counties, setCounties] = useState();
   const [difficulty, setDifficulty] = useState();
   const [evaluation, setEvaluation] = useState();
   const [altitude, setAltitude] = useState();
+  const [county, setCounty] = useState();
   const [state, setState] = useState(false);
   const [anchor] = useState("right");
   const [themeArray] = useState([
@@ -94,12 +94,12 @@ export default function Sidebar() {
     ],
   });
 
-  useEffect(async () => {
-    const a = await axios.post("/api/trail", { filters: {} });
-    console.log(a);
-    const b = await axios.get("/api/trail/1");
+  const search = async () => {
+    const b = await axios.get(
+      `/api/trail?filters=title:慶記,difficulty:${difficulty.value},evaluation:${evaluation},altitude:${altitude},countie:${county}`
+    );
     console.log(b);
-  }, []);
+  };
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === "keydown") return;
@@ -109,19 +109,34 @@ export default function Sidebar() {
   const changeDifficulty = (num) => {
     switch (num) {
       case 1:
-        setDifficulty("非常簡單");
+        setDifficulty({
+          value: num,
+          title: "非常簡單",
+        });
         break;
       case 2:
-        setDifficulty("簡單");
+        setDifficulty({
+          value: num,
+          title: "簡單",
+        });
         break;
       case 3:
-        setDifficulty("覺得還好");
+        setDifficulty({
+          value: num,
+          title: "覺得還好",
+        });
         break;
       case 4:
-        setDifficulty("困難");
+        setDifficulty({
+          value: num,
+          title: "困難",
+        });
         break;
       case 5:
-        setDifficulty("非常困難");
+        setDifficulty({
+          value: num,
+          title: "非常困難",
+        });
         break;
       default:
         break;
@@ -151,7 +166,9 @@ export default function Sidebar() {
   const changeAltitude = (numArray) => {
     setAltitude(numArray[1] - numArray[0]);
   };
-  const getCounties = (counties) => setCounties(counties);
+  const getCounty = (county) => {
+    setCounty(countiesArray[county]);
+  };
   const content = () => (
     <>
       <Item
@@ -163,7 +180,11 @@ export default function Sidebar() {
       <hr />
       <Item
         titleL="難易度"
-        titleR={difficulty || changeDifficulty(marksOneChoose.defaultVal)}
+        titleR={
+          difficulty
+            ? difficulty.title
+            : "" || changeDifficulty(marksOneChoose.defaultVal)
+        }
         marks={marksOneChoose}
         getChild={(num) => changeDifficulty(num)}
       ></Item>
@@ -190,7 +211,7 @@ export default function Sidebar() {
         titleL="縣市"
         btns={countiesArray}
         btns_num={6}
-        getChild={(counties) => getCounties(counties)}
+        getChild={(county) => getCounty(county)}
       ></Item>
     </>
   );
@@ -209,7 +230,13 @@ export default function Sidebar() {
                 <Button>重設</Button>
               </span>
               <span className="btn-outline-success">
-                <Button>使用</Button>
+                <Button
+                  onClick={() => {
+                    search();
+                  }}
+                >
+                  使用
+                </Button>
               </span>
             </div>
           </div>
