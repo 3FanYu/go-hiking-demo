@@ -1,112 +1,133 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import Button from '@material-ui/core/Button';
-import Item from './Item';
-import './sidebar.scss';
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import Button from "@material-ui/core/Button";
+import Item from "./Item";
+import "./sidebar.scss";
 
 const useStyles = makeStyles({
   list: {
     width: 250,
   },
   fullList: {
-    width: 'auto',
+    width: "auto",
   },
 });
-const themeArray = ['賞楓', '親子', '桐花', '露營', '密境', '賞櫻'];
-const countiesArray = ['台北', '新北', '台中', '高雄', '新竹', '南投', '嘉義', '台南', '台東', '宜蘭'];
-const marksOneChoose = {
-  defaultVal: 3,
-  marks:
-    [
+const axios = window.axios;
+export default function Sidebar() {
+  const classes = useStyles();
+  const [theme, setTheme] = useState();
+  const [counties, setCounties] = useState();
+  const [difficulty, setDifficulty] = useState();
+  const [evaluation, setEvaluation] = useState();
+  const [altitude, setAltitude] = useState();
+  const [state, setState] = useState(false);
+  const [anchor] = useState("right");
+  const [themeArray] = useState([
+    "賞楓",
+    "親子",
+    "桐花",
+    "露營",
+    "密境",
+    "賞櫻",
+  ]);
+  const [countiesArray] = useState([
+    "台北",
+    "新北",
+    "台中",
+    "高雄",
+    "新竹",
+    "南投",
+    "嘉義",
+    "台南",
+    "台東",
+    "宜蘭",
+  ]);
+  const [marksOneChoose] = useState({
+    defaultVal: 3,
+    marks: [
       {
         value: 1,
-        label: '1',
+        label: "1",
       },
       {
         value: 2,
-        label: '2',
+        label: "2",
       },
       {
         value: 3,
-        label: '3',
+        label: "3",
       },
       {
         value: 4,
-        label: '4',
+        label: "4",
       },
       {
         value: 5,
-        label: '5',
+        label: "5",
       },
-    ]
-};
-const marksTwoChoose = {
-  defaultVal: [0, 2000],
-  marks:
-    [
+    ],
+  });
+  const [marksTwoChoose] = useState({
+    defaultVal: [0, 2000],
+    marks: [
       {
         value: 0,
-        label: '',
+        label: "",
       },
       {
         value: 1000,
-        label: '1000',
+        label: "1000",
       },
       {
         value: 2000,
-        label: '2000',
+        label: "2000",
       },
       {
         value: 3000,
-        label: '3000',
+        label: "3000",
       },
       {
         value: 4000,
-        label: '',
+        label: "",
       },
-    ]
-};
-
-export default function TemporaryDrawer() {
-  const [difficulty, setDifficulty] = useState(null);
-  const [evaluation, setEvaluation] = useState(null);
-  const [altitude, setAltitude] = useState(null);
-  const classes = useStyles();
-  const [state, setState] = React.useState({
-    right: false,
+    ],
   });
-  const [anchor] = React.useState('right');
 
-  const toggleDrawer = (anchor, open) => (event) => {
-    if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) return;
-    setState({ ...state, [anchor]: open });
+  useEffect(async () => {
+    const a = await axios.post("/api/trail", { filters: {} });
+    console.log(a);
+    const b = await axios.get("/api/trail/1");
+    console.log(b);
+  }, []);
+
+  const toggleDrawer = (open) => (event) => {
+    if (event.type === "keydown") return;
+    setState(open);
   };
-
-  function changeDifficulty(num) {
+  const getTheme = (theme) => setTheme(theme);
+  const changeDifficulty = (num) => {
     switch (num) {
       case 1:
-        setDifficulty('非常簡單');
+        setDifficulty("非常簡單");
         break;
       case 2:
-        setDifficulty('簡單');
+        setDifficulty("簡單");
         break;
       case 3:
-        setDifficulty('覺得還好');
+        setDifficulty("覺得還好");
         break;
       case 4:
-        setDifficulty('困難');
+        setDifficulty("困難");
         break;
       case 5:
-        setDifficulty('非常困難');
+        setDifficulty("非常困難");
         break;
       default:
         break;
     }
-  }
-
-  function changeEvaluation(num) {
+  };
+  const changeEvaluation = (num) => {
     switch (num) {
       case 1:
         setEvaluation(num);
@@ -126,69 +147,74 @@ export default function TemporaryDrawer() {
       default:
         break;
     }
-  }
-
-  function changeAltitude(numArray) {
+  };
+  const changeAltitude = (numArray) => {
     setAltitude(numArray[1] - numArray[0]);
-  }
-
-  const list = (anchor) => (
-    <div
-      className={clsx(classes.list, {
-        [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-      })}
-      role="presentation"
-    >
-      <div className="sidebar">
-        <div className="sidebar__header">
-          <span>篩選搜尋</span>
-        </div>
-        <div className="sidebar__content">
-          <Item btns={themeArray} btns_num={4}>
-            <span className="sidebar__title">主題</span>
-          </Item>
-          <hr />
-          <Item marks={marksOneChoose} getChild={(num) => changeDifficulty(num)}>
-            <span className="sidebar__title">難易度</span>
-            <span className="sidebar__title">{difficulty || changeDifficulty(marksOneChoose.defaultVal)}</span>
-          </Item>
-          <hr />
-          <Item marks={marksOneChoose} getChild={(num) => changeEvaluation(num)}>
-            <span className="sidebar__title">評價</span>
-            <span className="sidebar__title">{evaluation || changeEvaluation(marksOneChoose.defaultVal)}顆星</span>
-          </Item>
-          <hr />
-          <Item marks={marksTwoChoose} getChild={(numArray) => changeAltitude(numArray)}>
-            <span className="sidebar__title">海拔</span>
-            <span className="sidebar__title">至{altitude || changeAltitude(marksTwoChoose.defaultVal)}M</span>
-          </Item>
-          <hr />
-          <Item btns={countiesArray} btns_num={6}>
-            <span className="sidebar__title">縣市</span>
-          </Item>
-        </div>
-        <div className="sidebar__footer">
-          <span className="btn-success">
-            <Button>
-              重設
-            </Button>
-          </span>
-          <span className="btn-outline-success">
-            <Button>
-              使用
-            </Button>
-          </span>
-        </div>
-      </div>
-    </div>
+  };
+  const getCounties = (counties) => setCounties(counties);
+  const content = () => (
+    <>
+      <Item
+        titleL="主題"
+        btns={themeArray}
+        btns_num={4}
+        getChild={(theme) => getTheme(theme)}
+      ></Item>
+      <hr />
+      <Item
+        titleL="難易度"
+        titleR={difficulty || changeDifficulty(marksOneChoose.defaultVal)}
+        marks={marksOneChoose}
+        getChild={(num) => changeDifficulty(num)}
+      ></Item>
+      <hr />
+      <Item
+        titleL="評價"
+        titleR={`${
+          evaluation || changeEvaluation(marksOneChoose.defaultVal)
+        }顆星`}
+        marks={marksOneChoose}
+        getChild={(num) => changeEvaluation(num)}
+      ></Item>
+      <hr />
+      <Item
+        titleL="海拔"
+        titleR={`
+      至${altitude || changeAltitude(marksTwoChoose.defaultVal)}M
+    `}
+        marks={marksTwoChoose}
+        getChild={(numArray) => changeAltitude(numArray)}
+      ></Item>
+      <hr />
+      <Item
+        titleL="縣市"
+        btns={countiesArray}
+        btns_num={6}
+        getChild={(counties) => getCounties(counties)}
+      ></Item>
+    </>
   );
-
   return (
-    <React.Fragment key={anchor}>
-      <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
-      <Drawer anchor={anchor} open={state[anchor]} onClose={toggleDrawer(anchor, false)}>
-        {list(anchor)}
+    <>
+      <Button onClick={toggleDrawer(true)}>{anchor}</Button>
+      <Drawer anchor={anchor} open={state} onClose={toggleDrawer(false)}>
+        <div className={classes.list} role="presentation">
+          <div className="sidebar">
+            <div className="sidebar__header">
+              <span>篩選搜尋</span>
+            </div>
+            <div className="sidebar__content">{content()}</div>
+            <div className="sidebar__footer">
+              <span className="btn-success">
+                <Button>重設</Button>
+              </span>
+              <span className="btn-outline-success">
+                <Button>使用</Button>
+              </span>
+            </div>
+          </div>
+        </div>
       </Drawer>
-    </React.Fragment>
+    </>
   );
 }

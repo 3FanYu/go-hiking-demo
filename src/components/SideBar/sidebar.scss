@@ -1,217 +1,225 @@
-$primary-color:rgb(0, 208, 76);
-$primary-color-10:rgba(0, 208, 76, 0.1);
-$primary-color-20:rgba(0, 208, 76, 0.2);
-$label-primary:rgb(35, 35, 35);
-$label-primary-10:rgba(35, 35, 35, 0.1);
-$diveders-color:rgba(0, 0, 0, 0.12);
+$primary-color: rgb(0, 208, 76);
+$primary-color-10: rgba(0, 208, 76, 0.1);
+$primary-color-20: rgba(0, 208, 76, 0.2);
+$label-primary: rgb(35, 35, 35);
+$label-primary-10: rgba(35, 35, 35, 0.1);
+$diveders-color: rgba(0, 0, 0, 0.12);
 $font-family: NotoSansCJKtc;
 
 * {
-    font-family: $font-family;
+  font-family: $font-family;
 }
 
 .sidebar {
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.5px;
-    margin-bottom: 46px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  margin-bottom: 46px;
+  &__header {
+    font-size: 18px;
+    font-weight: 500;
+    color: $primary-color;
+    background-color: $primary-color-10;
+    padding: 29px 0px 17px 16px;
+  }
 
-    &__header {
-        font-size: 18px;
-        font-weight: 500;
-        color: $primary-color;
-        background-color: $primary-color-10;
-        padding: 29px 0px 17px 16px;
-    }
+  &__title {
+    margin-top: 16px;
+  }
 
-    &__content {
-        .item {
-            font-size: 16px;
-            font-weight: normal;
-            color: $label-primary;
-            padding: 0px 0px 8px 16px;
-
-            &__header {
-                padding-right: 16px;
-            }
-
-            &__marks {
-                padding-right: 24px;
-            }
-        }
-    }
-
-    &__title {
-        margin-top: 16px;
-    }
-
-    &__footer {
-        background: #fff;
-        padding: 5px 0px 5px 15px;
-        box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.05);
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        width: 250px;
-        box-sizing: border-box;
-    }
+  &__footer {
+    background: #fff;
+    padding: 5px 0px 5px 15px;
+    box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.05);
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 250px;
+    box-sizing: border-box;
+  }
 }
 
+.item {
+  font-size: 16px;
+  font-weight: normal;
+  color: $label-primary;
+  padding: 0px 0px 8px 16px;
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-right: 16px;
+  }
 
+  &__marks {
+    padding-right: 24px;
+  }
+}
 
 @mixin muiButton-root {
-    width: 100px;
-    height: 35px;
-    border-radius: 4px;
-    padding: 5px 34px;
-    margin: 16px 16px 0px 0px;
-    box-sizing: border-box;
+  width: 100px;
+  height: 35px;
+  border-radius: 4px;
+  padding: 5px 34px;
+  margin: 16px 16px 0px 0px;
+  box-sizing: border-box;
 }
 
 @mixin muiButton-root-hover {
-    background: white;
+  background: white;
 }
 
 .btn {
-    &-gray {
-        .MuiButton {
-            &-root {
-                @include muiButton-root;
-                background: $label-primary-10;
-            }
+  &-gray {
+    .MuiButton {
+      &-root {
+        @include muiButton-root;
+        background: $label-primary-10;
+      }
 
-            &-root:hover {
-                @include muiButton-root-hover;
-                border: solid 1px $primary-color;
-            }
-        }
-
-        .MuiButtonBase {
-            &-root {
-                color: $label-primary;
-            }
-
-            &-root:hover {
-                color: $primary-color;
-            }
-        }
+      &-root:hover {
+        @include muiButton-root-hover;
+        border: solid 1px $primary-color;
+      }
+      &-root:active {
+        @include muiButton-root-hover;
+        border: solid 1px $primary-color;
+      }
+      &-active {
+        @include muiButton-root-hover;
+        border: solid 1px $primary-color;
+      }
     }
 
-    &-outline-success {
-        .MuiButton {
-            &-root {
-                @include muiButton-root;
-                margin-top: 0px;
-                border: solid 1px $primary-color;
-            }
+    .MuiButtonBase {
+      &-root {
+        color: $label-primary;
+      }
 
-            &-root:hover {
-                @include muiButton-root-hover;
-                border: solid 1px $primary-color;
-            }
-        }
+      &-root:hover {
+        color: $primary-color;
+      }
+    }
+  }
 
-        .MuiButtonBase {
-            &-root {
-                color: $primary-color;
-            }
+  &-outline-success {
+    .MuiButton {
+      &-root {
+        @include muiButton-root;
+        margin-top: 0px;
+        border: solid 1px $primary-color;
+      }
 
-            &-root:hover {
-                color: $primary-color;
-            }
-        }
+      &-root:hover {
+        @include muiButton-root-hover;
+        border: solid 1px $primary-color;
+      }
     }
 
-    &-success {
-        .MuiButton {
-            &-root {
-                @include muiButton-root;
-                margin-top: 0px;
-                background: $primary-color;
-            }
+    .MuiButtonBase {
+      &-root {
+        color: $primary-color;
+      }
 
-            &-root:hover {
-                @include muiButton-root-hover;
-                background: $primary-color;
-            }
-        }
-
-        .MuiButtonBase {
-            &-root {
-                color: white;
-            }
-
-            &-root:hover {
-                color: white;
-            }
-        }
+      &-root:hover {
+        color: $primary-color;
+      }
     }
+  }
+
+  &-success {
+    .MuiButton {
+      &-root {
+        @include muiButton-root;
+        margin-top: 0px;
+        background: $primary-color;
+      }
+
+      &-root:hover {
+        @include muiButton-root-hover;
+        background: $primary-color;
+      }
+    }
+
+    .MuiButtonBase {
+      &-root {
+        color: white;
+      }
+
+      &-root:hover {
+        color: white;
+      }
+    }
+  }
 }
 
 .slider {
-    margin: 8px 0px 0px 0px;
+  margin: 8px 0px 0px 0px;
 
-    .MuiSlider {
-        &-rail {
-            height: 6px;
-            background-color: $primary-color-20;
-        }
-
-        &-track {
-            height: 6px;
-            background-color: $primary-color;
-        }
-
-        &-mark {
-            height: 3px;
-            width: 3px;
-            margin-top: 1px;
-            background-color: $primary-color;
-        }
-
-        &-markActive {
-            background-color: white;
-        }
-
-        &-markLabel {
-            margin-left: 3px;
-        }
-
-        &-markLabelActive {
-            color: $primary-color;
-        }
-
-        &-thumb {
-            height: 17px;
-            width: 17px;
-            background-color: white;
-            border: 4px solid $primary-color;
-            box-sizing: border-box;
-        }
+  .MuiSlider {
+    &-rail {
+      height: 6px;
+      background-color: $primary-color-20;
     }
+
+    &-track {
+      height: 6px;
+      background-color: $primary-color;
+    }
+
+    &-mark {
+      height: 3px;
+      width: 3px;
+      margin-top: 1px;
+      background-color: $primary-color;
+    }
+
+    &-markActive {
+      background-color: white;
+    }
+
+    &-markLabel {
+      margin-left: 3px;
+    }
+
+    &-markLabelActive {
+      color: $primary-color;
+    }
+
+    &-thumb {
+      height: 17px;
+      width: 17px;
+      background-color: white;
+      border: 4px solid $primary-color;
+      box-sizing: border-box;
+    }
+  }
 }
 
-.showManyBtn {
-    display: flex;
-    justify-content: center;
-    color: #919191;
-    margin: 14px 0px 0px 0px;
-    font-size: 14px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: 1.5;
-    letter-spacing: 0.5px;
-    cursor: pointer;
+.showDisplaymMoreBtn {
+  display: flex;
+  justify-content: center;
+  color: #919191;
+  margin: 14px 0px 0px 0px;
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+  cursor: pointer;
 
-    span {
-        display: flex;
-        align-items: center;
-    }
+  span {
+    display: flex;
+    align-items: center;
+  }
+}
+.MuiDrawer-paper {
+  overflow-y: overlay !important;
 }
 
 hr {
-    margin: 0;
-    border: 1px solid rgba(0, 0, 0, 0.12);
+  margin: 0;
+  border: 1px solid rgba(0, 0, 0, 0.12);
 }
