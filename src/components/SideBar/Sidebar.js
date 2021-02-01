@@ -96,8 +96,8 @@ export default function Sidebar() {
       },
     ],
   });
-  useEffect(() => {
-    (async () => {
+  useEffect(async () => {
+    await (async () => {
       const { data } = await axios.get('api/collection');
       setThemeArray(data.map(item => {
         return { value: item.id, title: item.name }
