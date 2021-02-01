@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button";
 import Slider from "@material-ui/core/Slider";
 import Icon from "@material-ui/core/Icon";
 import "font-awesome/css/font-awesome.min.css";
 
 export default function Item(props) {
-  const { titleL, titleR, marks, btns, btns_num } = props;
+  const { titleL, titleR, marks, btns, btns_num, reset } = props;
   const [isDisplaymMoreBtn, setIsDisplaymMoreBtn] = useState(true);
   const [btnClick, setBtnClick] = useState();
+  const [sliderNum, setSliderNum] = useState(2);
+
+  useEffect(() => {
+    if (marks) {
+      setSliderNum(() => marks.defaultVal);
+    }
+  }, [marks]);
 
   const showBtns = (displaymMoreBtn) => {
     if (displaymMoreBtn !== null && displaymMoreBtn !== isDisplaymMoreBtn)
@@ -20,7 +27,13 @@ export default function Item(props) {
               <sapn className="btn-gray">
                 <Button
                   variant="contained"
-                  className={btnClick === index ? "MuiButton-active" : ""}
+                  className={
+                    reset
+                      ? resetBtn()
+                      : btnClick === index
+                      ? "MuiButton-active"
+                      : ""
+                  }
                   disableElevation
                   onClick={async () => {
                     setBtnClick(index);
@@ -54,17 +67,32 @@ export default function Item(props) {
   const showSlider = (marks) => (
     <div className="slider">
       <Slider
-        defaultValue={marks.defaultVal}
         step={null}
+        value={reset ? resetSlider(marks) : sliderNum}
         valueLabelDisplay="off"
         marks={marks.marks}
         min={marks.marks[0].value}
         max={marks.marks[marks.marks.length - 1].value}
-        onChangeCommitted={(event, num) => props.getChild(num)}
+        onChangeCommitted={(event, num) => {
+          setSliderNum(() => num);
+          props.getChild(num);
+        }}
       />
     </div>
   );
-
+  const resetBtn = () => {
+    if (btnClick !== "") {
+      setBtnClick(() => "");
+      props.getChild("");
+    }
+  };
+  const resetSlider = (marks) => {
+    if (sliderNum !== marks.defaultVal) {
+      setSliderNum(() => marks.defaultVal);
+      props.getChild(marks.defaultVal);
+    }
+    return marks.defaultVal;
+  };
   return (
     <div className="item">
       <div className="item__header">
