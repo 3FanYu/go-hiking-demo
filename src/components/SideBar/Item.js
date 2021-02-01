@@ -21,7 +21,7 @@ export default function Item(props) {
       setIsDisplaymMoreBtn(displaymMoreBtn);
     return (
       <>
-        {btns.map((label, index) => {
+        {btns.map((btn, index) => {
           if (!isDisplaymMoreBtn || index + 1 <= btns_num) {
             return (
               <sapn className="btn-gray">
@@ -30,18 +30,18 @@ export default function Item(props) {
                   className={
                     reset
                       ? resetBtn()
-                      : btnClick === index
-                      ? "MuiButton-active"
-                      : ""
+                      : btnClick === btn.value
+                        ? "MuiButton-active"
+                        : ""
                   }
                   disableElevation
                   onClick={async () => {
-                    setBtnClick(index);
-                    props.getChild(index);
+                    setBtnClick(btn.value);
+                    props.getChild(btn.value);
                   }}
-                  key={label}
+                  key={btn.value}
                 >
-                  {label}
+                  {btn.title}
                 </Button>
               </sapn>
             );
@@ -102,8 +102,8 @@ export default function Item(props) {
       {marks ? (
         <div className="item__marks">{showSlider(marks)}</div>
       ) : (
-        <div className="item__btns">{showBtns(null)}</div>
-      )}
+          <div className="item__btns">{showBtns(null)}</div>
+        )}
     </div>
   );
 }

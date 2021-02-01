@@ -27,30 +27,24 @@ export default function Sidebar() {
   const [theme, setTheme] = useState("");
   const [difficulty, setDifficulty] = useState();
   const [evaluation, setEvaluation] = useState();
-  const [altitude, setAltitude] = useState();
+  const [altitude1, setAltitude1] = useState();
+  const [altitude2, setAltitude2] = useState();
   const [county, setCounty] = useState("");
   const [state, setState] = useState(false);
   const [anchor] = useState("right");
   const [reset, setReset] = useState(false);
-  const [themeArray] = useState([
-    "賞楓",
-    "親子",
-    "桐花",
-    "露營",
-    "密境",
-    "賞櫻",
-  ]);
+  const [themeArray, setThemeArray] = useState();
   const [countiesArray] = useState([
-    "台北",
-    "新北",
-    "台中",
-    "高雄",
-    "新竹",
-    "南投",
-    "嘉義",
-    "台南",
-    "台東",
-    "宜蘭",
+    { value: "1", title: "台北" },
+    { value: "2", title: "新北" },
+    { value: "3", title: "台中" },
+    { value: "4", title: "高雄" },
+    { value: "5", title: "新竹" },
+    { value: "6", title: "南投" },
+    { value: "7", title: "嘉義" },
+    { value: "8", title: "台南" },
+    { value: "9", title: "台東" },
+    { value: "10", title: "宜蘭" },
   ]);
   const [marksOneChoose] = useState({
     defaultVal: 3,
@@ -102,18 +96,36 @@ export default function Sidebar() {
       },
     ],
   });
+  useEffect(() => {
+    (async () => {
+      const { data } = await axios.get('api/collection');
+      setThemeArray(data.map(item => {
+        return { value: item.id, title: item.name }
+      }));
+    })()
+  }, [])
+
 
   const search = async () => {
-    await axios.get(
-      `/api/trail?filters=title:慶記,difficulty:${difficulty.value},evaluation:${evaluation},altitude:${altitude},countie:${county}`
+    const data = await axios.get(
+      `/api/trail?filters=title:慶記,difficulty:${difficulty.value},evaluation:${evaluation},altitude1:${altitude1},altitude2:${altitude2},countie:${county.title},collection:${theme.value}`
     );
+    console.log(data);
   };
 
   const toggleDrawer = (open) => (event) => {
     if (event.type === "keydown") return;
     setState(open);
   };
-  const getTheme = (theme) => setTheme(theme);
+  const getTheme = (theme) => {
+    if (theme === "") {
+      setTheme("");
+    } else {
+      setTheme(() => (
+        themeArray.find(item => item.value === theme)
+      ));
+    }
+  };
   const changeDifficulty = (num) => {
     switch (num) {
       case 1:
@@ -172,13 +184,16 @@ export default function Sidebar() {
     }
   };
   const changeAltitude = (numArray) => {
-    setAltitude(numArray[1] - numArray[0]);
+    setAltitude1(numArray[0]);
+    setAltitude2(numArray[1]);
   };
   const getCounty = (county) => {
     if (county === "") {
       setCounty("");
     } else {
-      setCounty(countiesArray[county]);
+      setCounty(() => (
+        countiesArray.find(item => item.value === county)
+      ));
     }
   };
   const resetData = () => {
@@ -213,7 +228,7 @@ export default function Sidebar() {
         titleL="評價"
         titleR={`${
           evaluation || changeEvaluation(marksOneChoose.defaultVal)
-        }顆星`}
+          }顆星`}
         reset={reset}
         marks={marksOneChoose}
         getChild={(num) => changeEvaluation(num)}
@@ -222,7 +237,7 @@ export default function Sidebar() {
       <Item
         titleL="海拔"
         titleR={`
-      至${altitude || changeAltitude(marksTwoChoose.defaultVal)}M
+      ${altitude1}至${altitude2 || changeAltitude(marksTwoChoose.defaultVal)}M
     `}
         reset={reset}
         marks={marksTwoChoose}
