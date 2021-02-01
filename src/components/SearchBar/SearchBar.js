@@ -44,7 +44,7 @@ function SearchBar(props) {
   return (
     <TextField
       className={classes.textField}
-      defaultValue={defaultkw===""?'':defaultkw}
+      defaultValue={defaultkw===undefined?'':defaultkw}
       placeholder="搜尋步道"
       margin={"normal"}
       size="small"
