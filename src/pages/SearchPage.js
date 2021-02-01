@@ -82,7 +82,7 @@ function SearchPage(){
         <>
             <TitleBar  title="步道搜尋"/>
             <div className={classes.searchSetting}>
-                <SearchBar props={""}/>
+                <SearchBar />
                 <div className={classes.quitSearchText}>快速搜尋</div>
 
                 <Grid container spacing={2}>
