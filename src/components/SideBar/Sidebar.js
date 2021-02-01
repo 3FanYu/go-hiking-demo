@@ -22,8 +22,9 @@ const useStyles = makeStyles({
   },
 });
 const axios = window.axios;
-export default function Sidebar() {
+export default function Sidebar(props) {
   const classes = useStyles();
+  const { kw, searchApi } = props;
   const [theme, setTheme] = useState("");
   const [difficulty, setDifficulty] = useState();
   const [evaluation, setEvaluation] = useState();
@@ -98,19 +99,25 @@ export default function Sidebar() {
   });
   useEffect(async () => {
     await (async () => {
-      const { data } = await axios.get('api/collection');
-      setThemeArray(data.map(item => {
-        return { value: item.id, title: item.name }
-      }));
-    })()
-  }, [])
+      const { data } = await axios.get("api/collection");
+      setThemeArray(
+        data.map((item) => {
+          return { value: item.id, title: item.name };
+        })
+      );
+    })();
+  }, []);
 
-
-  const search = async () => {
-    const data = await axios.get(
-      `/api/trail?filters=title:慶記,difficulty:${difficulty.value},evaluation:${evaluation},altitude1:${altitude1},altitude2:${altitude2},countie:${county.title},collection:${theme.value}`
-    );
-    console.log(data);
+  const search = () => {
+    //改成組成篩選url後回傳至SearchResult內的funtcion再做ajax
+    let filters = `/api/trail?filters=title:${kw},difficulty:${difficulty.value},evaluation:${evaluation},altitude1:${altitude1},altitude2:${altitude2}`;
+    county.title !== undefined
+      ? (filters += `,countie:${county.title}`)
+      : (filters += "");
+    theme.value !== undefined
+      ? (filters += `,collection:${theme.value}`)
+      : (filters += "");
+    searchApi(filters);
   };
 
   const toggleDrawer = (open) => (event) => {
@@ -121,9 +128,7 @@ export default function Sidebar() {
     if (theme === "") {
       setTheme("");
     } else {
-      setTheme(() => (
-        themeArray.find(item => item.value === theme)
-      ));
+      setTheme(() => themeArray.find((item) => item.value === theme));
     }
   };
   const changeDifficulty = (num) => {
@@ -191,9 +196,7 @@ export default function Sidebar() {
     if (county === "") {
       setCounty("");
     } else {
-      setCounty(() => (
-        countiesArray.find(item => item.value === county)
-      ));
+      setCounty(() => countiesArray.find((item) => item.value === county));
     }
   };
   const resetData = () => {
@@ -228,7 +231,7 @@ export default function Sidebar() {
         titleL="評價"
         titleR={`${
           evaluation || changeEvaluation(marksOneChoose.defaultVal)
-          }顆星`}
+        }顆星`}
         reset={reset}
         marks={marksOneChoose}
         getChild={(num) => changeEvaluation(num)}
@@ -273,6 +276,7 @@ export default function Sidebar() {
                 <Button
                   onClick={() => {
                     search();
+                    setState(false);
                   }}
                 >
                   使用
