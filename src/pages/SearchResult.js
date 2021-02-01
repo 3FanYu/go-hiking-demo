@@ -27,6 +27,7 @@ function SearchResult(props) {
   const classes = useStyles();
   console.log(props); //印出SearchBar的aboutProps
   var kw = "";
+  //判斷是否有來自於上一個頁面的kw，若沒有則從localStorage取值
   if (props.location.aboutProps !== undefined) {
     kw = props.location.aboutProps.name;
   } else {
@@ -34,15 +35,23 @@ function SearchResult(props) {
   }
   //搜尋結果hook
   const [searchResult, setSearchResult] = useState([]);
+  //頁面一載入就發送api請求
   useEffect(() => {
     searchApi(kw);
+  //載入完就清空kw，使重新載入頁面時會再發送一次apia請求
     return () => {
       kw="";
     };
   }, [kw]);
   //搜尋function
   const searchApi = async (kw) => {
-    await api.get("/trail?filters=title:" + kw).then((res) => {
+    await api.get("/api/trail?filters=title:" + kw).then((res) => {
+      setSearchResult(res.data);
+    });
+  };
+  //搜尋function2
+  const searchApiSlideBar = async (url) => {
+    await api.get(url).then((res) => {
       setSearchResult(res.data);
     });
   };
@@ -77,7 +86,7 @@ function SearchResult(props) {
           </Grid>
           <Grid item xs={1}>
             {/* 名彥大哥的超猛篩選器 */}
-            <TemporaryDrawer></TemporaryDrawer>
+            <TemporaryDrawer kw={kw} searchApi={searchApiSlideBar}></TemporaryDrawer>
           </Grid>
         </Grid>
 

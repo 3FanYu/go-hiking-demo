@@ -21,31 +21,35 @@ export default function Item(props) {
       setIsDisplaymMoreBtn(displaymMoreBtn);
     return (
       <>
-        {btns.map((label, index) => {
-          if (!isDisplaymMoreBtn || index + 1 <= btns_num) {
-            return (
-              <sapn className="btn-gray">
-                <Button
-                  variant="contained"
-                  className={
-                    reset
-                      ? resetBtn()
-                      : btnClick === index
-                      ? "MuiButton-active"
-                      : ""
-                  }
-                  disableElevation
-                  onClick={async () => {
-                    setBtnClick(index);
-                    props.getChild(index);
-                  }}
-                  key={label}
-                >
-                  {label}
-                </Button>
-              </sapn>
-            );
-          }
+        {btns.map((btn, index) => {
+          return (
+            <>
+              {
+                (!isDisplaymMoreBtn || index + 1 <= btns_num) ?
+                  <sapn className="btn-gray">
+                    <Button
+                      variant="contained"
+                      className={
+                        reset
+                          ? resetBtn()
+                          : btnClick === btn.value
+                            ? "MuiButton-active"
+                            : ""
+                      }
+                      disableElevation
+                      onClick={async () => {
+                        setBtnClick(btn.value);
+                        props.getChild(btn.value);
+                      }}
+                      key={btn.value}
+                    >
+                      {btn.title}
+                    </Button>
+                  </sapn>
+                  : ""
+              }
+            </>
+          )
         })}
         {showDisplaymMoreBtn()}
       </>
@@ -102,8 +106,8 @@ export default function Item(props) {
       {marks ? (
         <div className="item__marks">{showSlider(marks)}</div>
       ) : (
-        <div className="item__btns">{showBtns(null)}</div>
-      )}
+          <div className="item__btns">{showBtns(null)}</div>
+        )}
     </div>
   );
 }

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const https = axios.create({
-  baseURL: "https://fe1ac3558031.ngrok.io",
+  baseURL: process.env.REACT_APP_API_URL,
 });
 
 const createAxios = {
