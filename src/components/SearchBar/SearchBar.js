@@ -62,7 +62,7 @@ function SearchBar(props) {
           className={classes.iconButton}
           onClick={() => {
             // console.log({value});
-
+            localStorage.setItem( 'kw', value);
           }}
         >
           <SearchIcon className={classes.searchIcon} />

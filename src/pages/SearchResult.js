@@ -25,16 +25,24 @@ const useStyles = makeStyles((theme) => ({
 
 function SearchResult(props) {
   const classes = useStyles();
-  console.log(props.location.aboutProps); //印出SearchBar的aboutProps
-  const kw = props.location.aboutProps.name;
+  console.log(props); //印出SearchBar的aboutProps
+  var kw = "";
+  if (props.location.aboutProps !== undefined) {
+    kw = props.location.aboutProps.name;
+  } else {
+    kw = localStorage.getItem("kw");
+  }
   //搜尋結果hook
   const [searchResult, setSearchResult] = useState([]);
   useEffect(() => {
     searchApi(kw);
-  },[kw]);
+    return () => {
+      kw="";
+    };
+  }, [kw]);
   //搜尋function
-  const searchApi = (kw) => {
-    api.get("/trail?filters=title:" + kw).then((res) => {
+  const searchApi = async (kw) => {
+    await api.get("/trail?filters=title:" + kw).then((res) => {
       setSearchResult(res.data);
     });
   };
@@ -49,7 +57,7 @@ function SearchResult(props) {
         justify="flex-start"
         spacing={1}
       >
-        <Grid item xs="12">
+        <Grid item xs={12}>
           <Link to="/">
             <BackArrow />
           </Link>
@@ -65,7 +73,7 @@ function SearchResult(props) {
         >
           <Grid item xs={11}>
             {/* 搜尋欄component */}
-            <SearchBar props={searchApi,kw} />
+            <SearchBar props={(searchApi, kw)} />
           </Grid>
           <Grid item xs={1}>
             {/* 名彥大哥的超猛篩選器 */}
