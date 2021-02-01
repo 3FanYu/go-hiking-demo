@@ -22,30 +22,34 @@ export default function Item(props) {
     return (
       <>
         {btns.map((btn, index) => {
-          if (!isDisplaymMoreBtn || index + 1 <= btns_num) {
-            return (
-              <sapn className="btn-gray">
-                <Button
-                  variant="contained"
-                  className={
-                    reset
-                      ? resetBtn()
-                      : btnClick === btn.value
-                        ? "MuiButton-active"
-                        : ""
-                  }
-                  disableElevation
-                  onClick={async () => {
-                    setBtnClick(btn.value);
-                    props.getChild(btn.value);
-                  }}
-                  key={btn.value}
-                >
-                  {btn.title}
-                </Button>
-              </sapn>
-            );
-          }
+          return (
+            <>
+              {
+                (!isDisplaymMoreBtn || index + 1 <= btns_num) ?
+                  <sapn className="btn-gray">
+                    <Button
+                      variant="contained"
+                      className={
+                        reset
+                          ? resetBtn()
+                          : btnClick === btn.value
+                            ? "MuiButton-active"
+                            : ""
+                      }
+                      disableElevation
+                      onClick={async () => {
+                        setBtnClick(btn.value);
+                        props.getChild(btn.value);
+                      }}
+                      key={btn.value}
+                    >
+                      {btn.title}
+                    </Button>
+                  </sapn>
+                  : ""
+              }
+            </>
+          )
         })}
         {showDisplaymMoreBtn()}
       </>

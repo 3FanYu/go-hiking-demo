@@ -97,8 +97,8 @@ export default function Sidebar(props) {
       },
     ],
   });
-  useEffect(async () => {
-    await (async () => {
+  useEffect(() => {
+    (async () => {
       const { data } = await axios.get("api/collection");
       setThemeArray(
         data.map((item) => {
@@ -231,7 +231,7 @@ export default function Sidebar(props) {
         titleL="評價"
         titleR={`${
           evaluation || changeEvaluation(marksOneChoose.defaultVal)
-        }顆星`}
+          }顆星`}
         reset={reset}
         marks={marksOneChoose}
         getChild={(num) => changeEvaluation(num)}
