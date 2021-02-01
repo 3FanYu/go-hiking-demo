@@ -1,9 +1,11 @@
-import React, { Fragment } from "react";
+import React, { Fragment,useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid,BottomNavigationAction,CardActionArea } from "@material-ui/core";
 import SearchBar from "../components/SearchBar/SearchBar";
 import TitleBar from "../components/TopBar/TitleBar";
 import { Link, withRouter} from 'react-router-dom';
+import axios from "axios";
+import CollectionList from '../components/Lists/CollectionList';
 
 import mapple from "../asset/img/icon-mapple.png";
 import chellenge from "../asset/img/icon-chellenge.png"
@@ -43,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
         position:"absolute",
         top:20,
         left:20,
-
     },
     footer:{
         boxShadow:" 0 0 3px 0 rgba(0, 0, 0, 0.2)",
@@ -58,9 +59,27 @@ const useStyles = makeStyles((theme) => ({
         color:"#000",textDecoration: 'none'
     }
   }));
+const api = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+    headers: {
+      "X-Secure-Code": "12345678",
+    },
+});
+
 
 function SearchPage(){
     const classes = useStyles();
+    const [searchResult, setSearchResult] = useState([]);
+    const collectionData =async()=>{
+        const Data =await api.get("/collection");
+        //Data.data.map((collection)=>(console.log(collection.name)))
+        console.table(Data.data);
+        setSearchResult(Data.data);
+    };
+    useEffect(()=>{
+        collectionData();
+    },[]);
+    
     const quickSearchText={
         mapple:'賞楓',
         chellenge:'挑戰',
@@ -69,14 +88,6 @@ function SearchPage(){
         forest:'秘境',
         sakura:'賞櫻',
     };
-    // const [quickSearch,SetQuickSearch]=useState({
-    //     mapple:false,
-    //     chellenge:false,
-    //     hotSpring:false,
-    //     family:false,
-    //     forest:false,
-    //     sakura:false,
-    // });
 
     return(
         <>
@@ -86,7 +97,8 @@ function SearchPage(){
                 <div className={classes.quitSearchText}>快速搜尋</div>
 
                 <Grid container spacing={2}>
-                    <Grid item xs={6}>
+                    <CollectionList data={searchResult}></CollectionList>
+                    {/* <Grid item xs={6}>
                         <Link to={{pathname:'/searchResult',aboutProps:quickSearchText.mapple}} 
                         className={classes.linkstlye} >
                         <CardActionArea>
@@ -151,7 +163,7 @@ function SearchPage(){
                         </div>
                         </CardActionArea>
                         </Link>
-                    </Grid>
+                    </Grid> */}
                 </Grid>
             </div>
             <div className={classes.footer}>
