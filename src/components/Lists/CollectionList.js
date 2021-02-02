@@ -38,23 +38,24 @@ const useStyles = makeStyles((theme) => ({
         left:20,
     },
 }));
-const obj=[
-    {mapple:{mapple}},
-    {chellenge:{chellenge}},
-    {hotSpring:{hotSpring}},
-    {family:{family}},
-    {forest:{forest}},
-    {sakura:{sakura}},
-]
+const obj={
+    'mapple.png':mapple,
+    'chellenge':chellenge,
+    'hotSpring':hotSpring,
+    'family':family,
+    'forest':forest,
+    'sakura':sakura,
+}
 
 
 const CollectionList=(props)=>{
     const classes = useStyles();
+    console.log(obj['mapple.png']);
     //api回傳資料
     let data = props.data;
     data =data.map((item,index)=>{
         const data1 = obj[index]?[...obj[index]]:[];
-        return {...item,...data1[0]};
+        return {...item,...data1[index]};
     })
     console.log(data);
     return(
@@ -65,7 +66,7 @@ const CollectionList=(props)=>{
                     <CardActionArea>
                         <div className={classes.quickSearchDiv}>
                             <span className={classes.span}>{collection.name}</span>
-                            <img src={mapple} className={classes.iconImg} alt="mapple.png"></img>
+                            <img src={obj[collection.iconImg]} className={classes.iconImg} alt={collection.iconImg}></img>
                         </div>
                     </CardActionArea>
                 </Link>
