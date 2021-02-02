@@ -38,35 +38,29 @@ const useStyles = makeStyles((theme) => ({
         left:20,
     },
 }));
+
 const obj={
     'mapple.png':mapple,
-    'chellenge':chellenge,
-    'hotSpring':hotSpring,
-    'family':family,
-    'forest':forest,
-    'sakura':sakura,
+    'chellenge.png':chellenge,
+    'hotSpring.png':hotSpring,
+    'family.png':family,
+    'forest.png':forest,
+    'sakura.png':sakura,
 }
-
 
 const CollectionList=(props)=>{
     const classes = useStyles();
-    console.log(obj['mapple.png']);
     //api回傳資料
-    let data = props.data;
-    data =data.map((item,index)=>{
-        const data1 = obj[index]?[...obj[index]]:[];
-        return {...item,...data1[index]};
-    })
-    console.log(data);
+    const data = props.data;
     return(
         data.map((collection)=>(
-            <Grid item xs={6}>
-                <Link key={collection} to={{pathname:'/searchResult',aboutProps:collection.name}} 
+            <Grid item xs={6} key={collection.id}>
+                <Link  to={{pathname:'/searchResult',aboutProps:collection.name}} 
                     className={classes.linkstlye} >
                     <CardActionArea>
                         <div className={classes.quickSearchDiv}>
                             <span className={classes.span}>{collection.name}</span>
-                            <img src={obj[collection.iconImg]} className={classes.iconImg} alt={collection.iconImg}></img>
+                            <img src={obj[collection.iconImage]} className={classes.iconImg} alt={collection.iconImg}></img>
                         </div>
                     </CardActionArea>
                 </Link>

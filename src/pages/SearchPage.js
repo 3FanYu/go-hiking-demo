@@ -43,23 +43,12 @@ function SearchPage(){
     const classes = useStyles();
     const [searchResult, setSearchResult] = useState([]);
     const collectionData =async()=>{
-        const Data =await api.get("/collection");
-        //Data.data.map((collection)=>(console.log(collection.name)))
-        console.table(Data.data);
+        const Data =await api.get("api/collection");
         setSearchResult(Data.data);
     };
     useEffect(()=>{
         collectionData();
     },[]);
-    
-    // const quickSearchText={
-    //     mapple:'賞楓',
-    //     chellenge:'挑戰',
-    //     hotSpring:'溫泉',
-    //     family:'親子',
-    //     forest:'秘境',
-    //     sakura:'賞櫻',
-    // };
 
     return(
         <>
