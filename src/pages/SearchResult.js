@@ -26,10 +26,12 @@ const useStyles = makeStyles((theme) => ({
 function SearchResult(props) {
   const classes = useStyles();
   console.log(props); //印出SearchBar的aboutProps
+  var title="";
   var kw = "";
   //判斷是否有來自於上一個頁面的kw，若沒有則從localStorage取值
   if (props.location.aboutProps !== undefined) {
     kw = props.location.aboutProps.name;
+    title= props.location.title;
   } else {
     kw = localStorage.getItem("kw");
   }
@@ -45,7 +47,7 @@ function SearchResult(props) {
   }, [kw]);
   //搜尋function
   const searchApi = async (kw) => {
-    await api.get("/api/trail?filters=title:" + kw).then((res) => {
+    await api.get("/api/trail?filters="+title + kw).then((res) => {
       setSearchResult(res.data);
     });
   };

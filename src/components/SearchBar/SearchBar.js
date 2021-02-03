@@ -57,7 +57,8 @@ function SearchBar(props) {
         startAdornment: (
           <Link to={{
             pathname:'/searchResult',
-            aboutProps:{name:value}
+            aboutProps:{name:value},
+            title:"title:",
           }}><IconButton
           className={classes.iconButton}
           onClick={() => {

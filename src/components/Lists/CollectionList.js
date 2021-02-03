@@ -55,7 +55,7 @@ const CollectionList=(props)=>{
     return(
         data.map((collection)=>(
             <Grid item xs={6} key={collection.id}>
-                <Link  to={{pathname:'/searchResult',aboutProps:collection.name}} 
+                <Link  to={{pathname:'/searchResult',aboutProps:collection.id,title:"colletcion:"}} 
                     className={classes.linkstlye} >
                     <CardActionArea>
                         <div className={classes.quickSearchDiv}>
