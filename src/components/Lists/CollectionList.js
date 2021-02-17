@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid,CardActionArea } from "@material-ui/core";
 import { Link} from 'react-router-dom';
-
 import mapple from "../../asset/img/icon-mapple.png";
 import chellenge from "../../asset/img/icon-chellenge.png"
 import hotSpring from "../../asset/img/icon-hot-spring.png";
@@ -55,7 +54,9 @@ const CollectionList=(props)=>{
     return(
         data.map((collection)=>(
             <Grid item xs={6} key={collection.id}>
-                <Link  to={{pathname:'/searchResult',aboutProps:collection.id,title:"colletcion:"}} 
+
+                <Link  to={`/SearchQuick/${collection.id }`} 
+
                     className={classes.linkstlye} >
                     <CardActionArea>
                         <div className={classes.quickSearchDiv}>

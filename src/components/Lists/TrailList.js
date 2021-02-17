@@ -33,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
 const TrailList = (props) => {
   const classes = useStyles();
   //api回傳資料
-  const data = props.data;
+  const data = props.data ;
+  console.log(data);
   return (
     <div className={classes.root}>
       <GridList cellHeight={72} cols={1}>
@@ -66,7 +67,7 @@ const TrailList = (props) => {
                 {trail.title}
               </Grid>
               <Grid item xs={12} className={classes.location}>
-                {trail.location.countie.name+trail.location.name}
+                {trail.location.name}
               </Grid>
               <Grid item xs={12} className={classes.distance}>
                 全程約{trail.distance}公里

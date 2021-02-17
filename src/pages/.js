@@ -1,13 +1,13 @@
 import { Grid } from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-// import "../App.css";
+import "../App.css";
 import SearchBar from "../components/SearchBar/SearchBar";
 import { makeStyles } from "@material-ui/core/styles";
 import BackArrow from "../components/TopBar/BackArrow";
 import TrailList from "../components/Lists/TrailList";
-import TemporaryDrawer from "../components/SideBar/Sidebar";
 import axios from "axios";
+import TemporaryDrawer from "../components/SideBar/Sidebar";
 
 const api = axios.create({
   baseURL: "https://go-hiking-backend-laravel.herokuapp.com/",
@@ -26,12 +26,10 @@ const useStyles = makeStyles((theme) => ({
 function SearchResult(props) {
   const classes = useStyles();
   console.log(props); //印出SearchBar的aboutProps
-  var title="";
   var kw = "";
   //判斷是否有來自於上一個頁面的kw，若沒有則從localStorage取值
   if (props.location.aboutProps !== undefined) {
     kw = props.location.aboutProps.name;
-    title= props.location.title;
   } else {
     kw = localStorage.getItem("kw");
   }
@@ -40,17 +38,14 @@ function SearchResult(props) {
   //頁面一載入就發送api請求
   useEffect(() => {
     searchApi(kw);
-    //載入完就清空kw，使重新載入頁面時會再發送一次apia請求
+  //載入完就清空kw，使重新載入頁面時會再發送一次apia請求
     return () => {
-      kw = "";
+      kw="";
     };
   }, [kw]);
   //搜尋function
   const searchApi = async (kw) => {
-   
-await api.get("/api/trail?filters="+title + kw).then((res) => {
-
-
+    await api.get("/api/trail?filters=title:" + kw).then((res) => {
       setSearchResult(res.data);
     });
   };
@@ -72,7 +67,7 @@ await api.get("/api/trail?filters="+title + kw).then((res) => {
         spacing={1}
       >
         <Grid item xs={12}>
-          <Link to="/searchPage">
+          <Link to="/">
             <BackArrow />
           </Link>
         </Grid>

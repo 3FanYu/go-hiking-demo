@@ -7,6 +7,7 @@ import HomeIcon from '@material-ui/icons/Home';
 import SearchIcon from '@material-ui/icons/Search';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import {Link} from 'react-router-dom';
 const useStyles = makeStyles((theme) => ({
 
    
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     fontFamily:"NotoSansCJKtc",
   },
 
-   bottomhover:"color:#00d04c",
+   
 }));
 
 
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 function Navigation() {
   
   const classes = useStyles(); 
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
 
   return(
     
